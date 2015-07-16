@@ -1,0 +1,1 @@
+* substitute bare pointers with Boost pointers? or maybe better to avoid Boost dependencies?

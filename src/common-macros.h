@@ -67,6 +67,46 @@ namespace regexsf {
     p = NULL;                           \
 }
 
+#define RX_THROW_OBJ(e)                 \
+{                                       \
+    throw e;                            \
+}
+
+#define RX_THROW(t)                     \
+{                                       \
+    t e;                                \
+    e.setFileName(__FILE__);            \
+    e.setFunctionName(__FUNCTION__);    \
+    e.setLineNumber(__LINE__);          \
+    throw e;                            \
+}
+
+#define RX_THROW_ARGS(t,args)           \
+{                                       \
+    t e(args);                          \
+    e.setFileName(__FILE__);            \
+    e.setFunctionName(__FUNCTION__);    \
+    e.setLineNumber(__LINE__);          \
+    throw e;                            \
+}
+
+#define RX_THROW_STREAM(t,s)            \
+{                                       \
+    TStringStream ss;                   \
+    ss << s;                            \
+    RX_THROW_ARGS(t,ss.str());          \
+}
+
+#define RX_MEMCPY(dest,src,sz)          \
+{                                       \
+    memcpy(dest,src,sz);                \
+}
+
+#define RX_MEMZERO(p,sz)                \
+{                                       \
+    memset(p,0,sz);                     \
+}
+
 };
 
 #endif

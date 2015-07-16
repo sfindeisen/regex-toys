@@ -1,1 +1,7 @@
+OBJBASENAMES+=automaton/State
 OBJBASENAMES+=memory/MemoryManager
+OBJBASENAMES+=misc/Printable
+OBJBASENAMES+=parser/Parser
+OBJBASENAMES+=parser/ast/AbstractRegex
+OBJBASENAMES+=throwable/RXAbstractThrowable
+OBJBASENAMES+=throwable/error/NotImplementedError
