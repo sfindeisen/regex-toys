@@ -23,7 +23,6 @@
 
 namespace regexsf {
 
-typedef std::string       TFileName;
 typedef std::string       TString;
 typedef std::stringstream TStringStream;
 
