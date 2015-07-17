@@ -3,6 +3,7 @@ OBJBASENAMES+=misc/MemoryManager
 OBJBASENAMES+=misc/Printable
 OBJBASENAMES+=parser/Parser
 OBJBASENAMES+=parser/ast/AbstractRegex
+OBJBASENAMES+=parser/ast/AbstractRegexSequence
 OBJBASENAMES+=parser/ast/Multi
 OBJBASENAMES+=parser/ast/RegexChar
 OBJBASENAMES+=parser/ast/RegexChoice

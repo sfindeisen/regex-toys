@@ -1,4 +1,5 @@
 #include "Multi.h"
+#include "../../throwable/error/NotImplementedError.h"
 #include "../../throwable/runtime/IllegalArgumentException.h"
 
 using namespace regexsf;
@@ -26,3 +27,13 @@ Multi::Multi(const MultiType& m, unsigned int lo, unsigned int hi)
 
 Multi::~Multi() {
 }
+
+TString Multi::asString() const {
+    switch (mt) {
+        case MultiType::ZeroOrMore:
+            return "*";
+        default:
+            RX_THROW(NotImplementedError);
+    }
+}
+

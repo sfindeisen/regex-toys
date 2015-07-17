@@ -3,16 +3,14 @@
 
 #include <vector>
 
-#include "AbstractRegex.h"
+#include "AbstractRegexSequence.h"
 
 namespace regexsf {
 
-class RegexChoice : public AbstractRegex {
+class RegexChoice : public AbstractRegexSequence {
     public:
         RegexChoice(const std::vector<AbstractRegex*>& v);
         virtual ~RegexChoice();
-    private:
-        std::vector<AbstractRegex*> alt;    // owned
 };
 
 };

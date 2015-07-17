@@ -24,4 +24,11 @@ void AbstractRegex::setMulti(Multi* p) {
     multi = p;
 }
 
+TString AbstractRegex::asString() const {
+    return asString("");
+}
+
+TString AbstractRegex::asString_other(const AbstractRegex& other, const TString& indent) const {
+    return other.asString(indent);
+}
 

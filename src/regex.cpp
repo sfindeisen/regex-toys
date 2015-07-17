@@ -9,13 +9,15 @@ using namespace regexsf;
 
 int main() {
     try {
-        std::string rx;
-        cin >> rx;
-        RX_DEBUG("got RE: " << rx);
+        std::string rxs;
+        cin >> rxs;
+        RX_DEBUG("got RE: " << rxs);
 
         Parser p;
-        p.parse(rx);
+        AbstractRegex* rx = p.parse(rxs);
+        RX_DEBUG("parsed RE: " << (*rx));
 
+        RX_DELETE(rx);
     } catch (regexsf::RXAbstractThrowable& e) {
         RX_ERROR(e);
     } catch (std::exception& e) {
