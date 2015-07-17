@@ -8,8 +8,8 @@ AbstractRegex::AbstractRegex() {
 }
 
 AbstractRegex::~AbstractRegex() {
-    for (std::vector<Multi*>::iterator it; it < multi.end(); ++it) {
-        RX_DELETE_VALUE(*it);
+    for (std::vector<Multi*>::iterator it = multi.begin(); it != multi.end(); ++it) {
+        RX_DELETE(*it);
     }
     multi.clear();
 }
