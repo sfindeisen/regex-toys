@@ -41,6 +41,12 @@ namespace regexsf {
     p = new e;                          \
 }
 
+#define RX_NEW_ARGS(p,e,...)            \
+{                                       \
+    regexsf::MemoryManager::getInstance().registerNew(__FILE__, __LINE__); \
+    p = new e(__VA_ARGS__);             \
+}
+
 #define RX_NEW_ARRAY(p,e,sz)            \
 {                                       \
     regexsf::MemoryManager::getInstance().registerNewArray(__FILE__, __LINE__); \
@@ -51,7 +57,7 @@ namespace regexsf {
 {                                       \
     regexsf::MemoryManager::getInstance().registerDelete(__FILE__, __LINE__); \
     delete p;                           \
-    p = NULL;                           \
+    p = nullptr;                           \
 }
 
 #define RX_DELETE_VALUE(p)              \
@@ -64,7 +70,7 @@ namespace regexsf {
 {                                       \
     regexsf::MemoryManager::getInstance().registerDeleteArray(__FILE__, __LINE__); \
     delete [] p;                        \
-    p = NULL;                           \
+    p = nullptr;                           \
 }
 
 #define RX_THROW_OBJ(e)                 \

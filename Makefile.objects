@@ -1,7 +1,12 @@
-OBJBASENAMES+=automaton/State
-OBJBASENAMES+=memory/MemoryManager
+OBJBASENAMES+=cfa/State
+OBJBASENAMES+=misc/MemoryManager
 OBJBASENAMES+=misc/Printable
 OBJBASENAMES+=parser/Parser
 OBJBASENAMES+=parser/ast/AbstractRegex
+OBJBASENAMES+=parser/ast/Multi
+OBJBASENAMES+=parser/ast/RegexChar
+OBJBASENAMES+=parser/ast/RegexChoice
+OBJBASENAMES+=parser/ast/RegexSequence
 OBJBASENAMES+=throwable/RXAbstractThrowable
 OBJBASENAMES+=throwable/error/NotImplementedError
+OBJBASENAMES+=throwable/runtime/IllegalArgumentException

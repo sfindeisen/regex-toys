@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-#include "../EBThrowableTemplate.h"
+#include "../RXThrowableTemplate.h"
 
 namespace regexsf {
 

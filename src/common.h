@@ -3,6 +3,6 @@
 
 #include "common-defs.h"
 #include "common-macros.h"
-#include "memory/MemoryManager.h"
+#include "misc/MemoryManager.h"
 
 #endif

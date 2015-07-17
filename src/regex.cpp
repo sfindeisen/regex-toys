@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "automaton/State.h"
+#include "cfa/State.h"
 #include "parser/Parser.h"
 #include "throwable/RXAbstractThrowable.h"
 
