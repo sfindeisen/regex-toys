@@ -1,34 +1,34 @@
 #include "AbstractRegex.h"
+#include "../../throwable/runtime/IllegalStateException.h"
 
 using namespace std;
 using namespace regexsf;
 
-AbstractRegex::AbstractRegex() : multi(nullptr) {
+AbstractRegex::AbstractRegex() {
 }
 
 AbstractRegex::~AbstractRegex() {
-    if (nullptr != multi) {
-        RX_DELETE(multi);
+    for (std::vector<Multi*>::iterator it; it < multi.end(); ++it) {
+        RX_DELETE_VALUE(*it);
     }
+    multi.clear();
 }
 
 bool AbstractRegex::hasMulti() const {
-    return (nullptr != multi);
+    return (! multi.empty());
 }
 
-void AbstractRegex::setMulti(Multi* p) {
-    if (nullptr != multi) {
-        RX_DELETE(multi);
+void AbstractRegex::pushMulti(Multi* p) {
+    // RX_DEBUG(p);
+    // RX_DEBUG(*p);
+    multi.push_back(p);
+}
+
+TString AbstractRegex::asString_multi() const {
+    TStringStream ss;
+    for (std::vector<Multi*>::const_iterator it = multi.begin(); it != multi.end(); ++it) {
+        ss << (**it);
     }
-
-    multi = p;
-}
-
-TString AbstractRegex::asString() const {
-    return asString("");
-}
-
-TString AbstractRegex::asString_other(const AbstractRegex& other, const TString& indent) const {
-    return other.asString(indent);
+    return ss.str();
 }
 

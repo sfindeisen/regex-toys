@@ -5,7 +5,7 @@
 
 namespace regexsf {
 
-enum class MultiType {ZeroOrMore, OneOrMore, ZeroOrOne, Exact, Range};
+enum class MultiType {ZeroOrMore, OneOrMore, ZeroOrOne, Exact, AtLeast, Range};
 
 class Multi : public regexsf::Printable {
     public:

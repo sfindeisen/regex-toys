@@ -9,8 +9,7 @@ class RegexChar : public AbstractRegex {
     public:
         RegexChar(const char c);
         virtual ~RegexChar();
-    protected:
-        virtual TString asString(const TString& indent) const;
+        virtual TString asString() const;
     private:
         const char value;
 };

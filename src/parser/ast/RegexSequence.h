@@ -11,6 +11,8 @@ class RegexSequence : public AbstractRegexSequence {
     public:
         RegexSequence(const std::vector<AbstractRegex*>& v);
         virtual ~RegexSequence();
+    protected:
+        virtual TString asString_seqType() const;
 };
 
 };

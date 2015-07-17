@@ -8,6 +8,11 @@ NotImplementedError::NotImplementedError()
 {
 }
 
+NotImplementedError::NotImplementedError(const TString& s)
+    : RXLogicError(s)
+{
+}
+
 NotImplementedError::~NotImplementedError() throw ()
 {
 }

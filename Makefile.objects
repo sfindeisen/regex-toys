@@ -11,3 +11,4 @@ OBJBASENAMES+=parser/ast/RegexSequence
 OBJBASENAMES+=throwable/RXAbstractThrowable
 OBJBASENAMES+=throwable/error/NotImplementedError
 OBJBASENAMES+=throwable/runtime/IllegalArgumentException
+OBJBASENAMES+=throwable/runtime/IllegalStateException

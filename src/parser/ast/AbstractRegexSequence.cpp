@@ -15,11 +15,12 @@ AbstractRegexSequence::~AbstractRegexSequence() {
     seq.clear();
 }
 
-TString AbstractRegexSequence::asString(const TString& indent) const {
+TString AbstractRegexSequence::asString() const {
     TStringStream ss;
-    for (std::vector<AbstractRegex*>::const_iterator it = seq.begin(); it != seq.end(); ++it) {
-        ss << asString_other(**it, indent + "  ") << endl;
-    }
+    ss << asString_seqType() << '(';
+    for (std::vector<AbstractRegex*>::const_iterator it = seq.begin(); it != seq.end(); ++it)
+        ss << (**it);
+    ss << ')' << asString_multi();
     return ss.str();
 }
 

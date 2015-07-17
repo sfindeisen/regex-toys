@@ -8,6 +8,7 @@ namespace regexsf {
 class NotImplementedError : public regexsf::RXLogicError {
     public:
         NotImplementedError();
+        NotImplementedError(const TString& s);
         virtual ~NotImplementedError() throw();
 
         virtual TString getName() const;

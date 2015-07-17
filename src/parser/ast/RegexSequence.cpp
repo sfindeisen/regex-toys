@@ -8,3 +8,7 @@ RegexSequence::RegexSequence(const std::vector<AbstractRegex*>& v) : AbstractReg
 RegexSequence::~RegexSequence() {
 }
 
+TString RegexSequence::asString_seqType() const {
+    return "SEQ";
+}
+

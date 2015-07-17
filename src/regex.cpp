@@ -15,9 +15,10 @@ int main() {
 
         Parser p;
         AbstractRegex* rx = p.parse(rxs);
+        RX_DEBUG("parsing done.");
         RX_DEBUG("parsed RE: " << (*rx));
 
-        RX_DELETE(rx);
+        // RX_DELETE(rx);
     } catch (regexsf::RXAbstractThrowable& e) {
         RX_ERROR(e);
     } catch (std::exception& e) {

@@ -11,7 +11,8 @@ class AbstractRegexSequence : public AbstractRegex {
         virtual ~AbstractRegexSequence();
     protected:
         AbstractRegexSequence(const std::vector<AbstractRegex*>& v);
-        virtual TString asString(const TString& indent) const;
+        virtual TString asString() const;
+        virtual TString asString_seqType() const =0;
     private:
         std::vector<AbstractRegex*> seq;    // owned
 };

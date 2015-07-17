@@ -14,7 +14,7 @@ Multi::Multi(const MultiType& m)
 Multi::Multi(const MultiType& m, unsigned int value)
     : mt(m), lo(value), hi(value)
 {
-    if (MultiType::Exact != m)
+    if (! ((MultiType::Exact == m) || (MultiType::AtLeast == m)))
         RX_THROW(IllegalArgumentException);
 }
 
@@ -29,9 +29,24 @@ Multi::~Multi() {
 }
 
 TString Multi::asString() const {
+    TStringStream ss;
+
     switch (mt) {
         case MultiType::ZeroOrMore:
             return "*";
+        case MultiType::OneOrMore:
+            return "+";
+        case MultiType::ZeroOrOne:
+            return "?";
+        case MultiType::Exact:
+            ss << '{' << lo << '}';
+            return ss.str();
+        case MultiType::AtLeast:
+            ss << '{' << lo << "+}";
+            return ss.str();
+        case MultiType::Range:
+            ss << '{' << lo << ';' << hi << '}';
+            return ss.str();
         default:
             RX_THROW(NotImplementedError);
     }

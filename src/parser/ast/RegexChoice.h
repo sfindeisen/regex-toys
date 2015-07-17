@@ -11,6 +11,8 @@ class RegexChoice : public AbstractRegexSequence {
     public:
         RegexChoice(const std::vector<AbstractRegex*>& v);
         virtual ~RegexChoice();
+    protected:
+        virtual TString asString_seqType() const;
 };
 
 };
