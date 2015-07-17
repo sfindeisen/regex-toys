@@ -3,14 +3,14 @@
 using namespace std;
 using namespace regexsf;
 
-State::State() {
+State::State() : counterId(0), incState(0), exitState(0), isAccept(false) {
 }
 
 State::~State() {
 }
 
-void State::putNext(char c, const State* s) {
-    next[c] = s;
+void State::setAlphaTransition(const TAlpha& c, const TStateIdx& i) {
+    alphaTransitions[c] = i;
 }
 
 TString State::asString() const {

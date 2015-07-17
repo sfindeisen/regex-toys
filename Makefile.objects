@@ -1,4 +1,6 @@
+OBJBASENAMES+=cfa/CFA
 OBJBASENAMES+=cfa/State
+OBJBASENAMES+=engine/Engine
 OBJBASENAMES+=misc/MemoryManager
 OBJBASENAMES+=misc/Printable
 OBJBASENAMES+=parser/Parser

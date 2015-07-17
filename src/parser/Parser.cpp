@@ -225,6 +225,23 @@ AbstractRegex* Parser::parse(const TString& s) const {
     if (s.empty())
         RX_THROW_ARGS(IllegalArgumentException, "Input regex string is empty!");
 
+    // check for allowed characters
+    for (unsigned int i=0; i < s.length(); ++i) {
+        if (! ((('0' <= s[i]) && (s[i] <= '9')) ||
+               (('a' <= s[i]) && (s[i] <= 'z')) ||
+               (('A' <= s[i]) && (s[i] <= 'Z')) ||
+                ('(' == s[i]) ||
+                (')' == s[i]) ||
+                ('{' == s[i]) ||
+                ('}' == s[i]) ||
+                ('|' == s[i]) ||
+                ('*' == s[i]) ||
+                ('+' == s[i]) ||
+                ('?' == s[i]) ||
+                (',' == s[i])))
+        RX_THROW_ARGS(IllegalArgumentException, RX_STRING("Illegal character at position " << i << ": " << s[i]));
+    }
+
     std::pair<AbstractRegex *, unsigned int> m = parseRegex(s, 0);
     if (m.second < s.length()) {
         RX_THROW_ARGS(IllegalArgumentException, RX_STRING("Unexpected characters at the end of input regex string, starting at position " << m.second << ": " << s[m.second]));
