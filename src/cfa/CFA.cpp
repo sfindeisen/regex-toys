@@ -3,10 +3,15 @@
 using namespace std;
 using namespace regexsf;
 
-CFA::CFA() {
+CFA::CFA() : Printable() {
 }
 
 CFA::~CFA() {
+}
+
+TCounterIdx CFA::addCounter(const Counter& ctr) {
+    counters.push_back(ctr);
+    return counters.size();
 }
 
 TString CFA::asString() const {

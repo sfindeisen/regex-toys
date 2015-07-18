@@ -5,7 +5,7 @@
 using namespace regexsf;
 
 Multi::Multi(const MultiType& m)
-    : mt(m)
+    : Printable(), mt(m)
 {
     if (! ((MultiType::ZeroOrMore == m) || (MultiType::OneOrMore == m) || (MultiType::ZeroOrOne == m)))
         RX_THROW(IllegalArgumentException);

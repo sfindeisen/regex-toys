@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "cfa/State.h"
+#include "engine/Engine.h"
 #include "parser/Parser.h"
 #include "throwable/RXAbstractThrowable.h"
 
@@ -18,7 +18,8 @@ int main() {
         RX_DEBUG("parsing done.");
         RX_INFO("parsed RE: " << (*rx));
 
-        // TODO build automaton
+        Engine engine(rx);
+        RX_INFO("compiled RE: " << engine);
 
         RX_DELETE(rx);
     } catch (regexsf::RXAbstractThrowable& e) {

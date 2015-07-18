@@ -5,9 +5,8 @@
 
 namespace regexsf {
 
-typedef int  TStateIdx;      // index to the state   array in the automaton (1-based)
-typedef int  TCounterIdx;    // index to the counter array in the automaton (1-based)
-typedef char TAlpha;         // alphabet (currently a-z A-Z only!); 0 is for nil-edges
+typedef int  TNodeIdx;        // index to the node    array in the automaton (1-based)
+typedef int  TCounterIdx;     // index to the counter array in the automaton (1-based)
 
 };
 
