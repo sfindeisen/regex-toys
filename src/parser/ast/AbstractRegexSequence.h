@@ -21,7 +21,7 @@ class AbstractRegexSequence : public AbstractRegex {
         virtual TString asString_seqType() const =0;
 
     private:
-        friend class Engine;
+        friend class CFABuilder;
 
         std::vector<AbstractRegex*> seq;    // owned
 };

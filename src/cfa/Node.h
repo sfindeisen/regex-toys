@@ -37,6 +37,7 @@ class Node : public regexsf::Printable {
         void setExitNode(const TNodeIdx& idx);
 
     private:
+        friend class CFABuilder;
         friend class Engine;
 
         TCounterIdx counterId;  // counter this Node is associated with (1-based) or 0

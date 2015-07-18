@@ -33,7 +33,7 @@ class AbstractRegex : public regexsf::Printable {
         AbstractRegex();
         TString asString_multi() const;
     private:
-        friend class Engine;
+        friend class CFABuilder;
         /** multiplicity specifications (there can be more than 1, in which case the first is the deepest */
         std::vector<Multi*> multi;       // owned
 };

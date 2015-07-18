@@ -22,6 +22,13 @@ void CFA::setStartNode(const TNodeIdx& i) {
         RX_THROW_STREAM(IllegalArgumentException, "index out of range: " << i);
 }
 
+void CFA::setFinalNode(const TNodeIdx& i) {
+    if ((1 <= i) && (i <= nodes.size()))
+        finalNode = i;
+    else
+        RX_THROW_STREAM(IllegalArgumentException, "index out of range: " << i);
+}
+
 TNodeIdx CFA::appendNode() {
     return appendNode(Node());
 }

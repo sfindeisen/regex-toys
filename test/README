@@ -1,0 +1,7 @@
+Test format:
+
+1st line: number of test cases (K)
+2nd line: regex
+line #j+2 (for 1<=j<=K): test string
+
+Output should be a single YES or NO per line (K lines total)

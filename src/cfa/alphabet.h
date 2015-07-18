@@ -6,7 +6,7 @@
 
 namespace regexsf {
 
-typedef int  TAlphaIdx;
+typedef int TAlphaIdx;
 
 const int AlphaLen = 1+26+26; // nil + a-z + A-Z
 

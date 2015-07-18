@@ -1,10 +1,10 @@
 #ifndef _regexsf_engine_Engine_H_
 #define _regexsf_engine_Engine_H_
 
+#include <cstring>
 #include <tuple>
 #include <vector>
 
-#include "../misc/Printable.h"
 #include "../cfa/CFA.h"
 #include "../parser/ast/AbstractRegexSequence.h"
 
@@ -16,55 +16,56 @@ struct TState {
     unsigned int *counters;  // counter values: 0, 1, ... TotalCounters-1
                              // but only the first cc are relevant
                              // with the current counter stored at index cc-1
+
+    inline TState(const TNodeIdx& i) : node(i), cc(0), counters(nullptr) {
+    }
+
+    inline TState(const TNodeIdx& i, const unsigned int& ctrTotal) : node(i), cc(1), counters(nullptr) {
+        counters = new unsigned int[ctrTotal];
+        memset(counters, 0, ctrTotal * sizeof(unsigned int));
+    }
+
+    inline ~TState() {
+        if (counters) {
+            delete [] counters;
+        }
+    }
+
+private:
+    inline TState(const TState& a) : node(a.node), cc(a.cc), counters(nullptr) {
+        // do not use
+    }
 };
 
-/** sub-CFA initialization result */
-struct TSubCFAInitRes {
-    TNodeIdx initialNode;
-    TNodeIdx   finalNode;
+typedef std::vector<TState*> TQueue;
 
-    TSubCFAInitRes() : initialNode(0), finalNode(0) {
-    }
-
-    TSubCFAInitRes(const TNodeIdx& i1, const TNodeIdx& i2) : initialNode(i1), finalNode(i2) {
-    }
-
-    /** no sub-CFA built (empty regex) */
-    bool isSkipped() const {
-        return ((0 == initialNode) || (0 == finalNode));
-    }
-};
-
-class Engine : public regexsf::Printable {
+class Engine {
     public:
-        Engine(const AbstractRegex* regex);
-        virtual ~Engine();
-
         /** match the whole string */
-        bool match(const TString& string) const;
-        TString asString() const;
+        bool match(const CFA& cfa, const TString& s) const;
+
     protected:
-        std::tuple<bool, unsigned int, unsigned int> computeCounter(const AbstractRegex& rx) const;
-
-        /** builds sub-CFA from given regex sequence; the result is a list of sub-CFAs */
-        std::vector<TSubCFAInitRes> initCFA_seq(CFA& cfa, const TCounterIdx& parentCounter, const AbstractRegexSequence* regex) const;
-
-        /**
-         * builds sub-CFA from given regex (but does not take top quantifier into account).
-         *
-         * parentCounter: If not zero, is a 1-based index of the most immediate counter
-         *                this regex is governed by.
-         */
-        TSubCFAInitRes initCFA_simple(CFA& cfa, const TCounterIdx& parentCounter, const AbstractRegex* regex) const;
-
-        /** builds sub-CFA from given regex (simple) and wraps it with a counter */
-        TSubCFAInitRes initCFA_wrapWithCounter(CFA& cfa, const TCounterIdx& counterIdx, const AbstractRegex* regex) const;
-
-        /** builds sub-CFA from given regex */
-        TSubCFAInitRes initCFA(CFA& cfa, const TCounterIdx& parentCounter, const AbstractRegex* regex) const;
-    private:
-        CFA* cfa;
+        bool checkAccept(const CFA& cfa, TQueue& queue) const;
+        TString asString(const TState& t) const;
+        TState* initState(const CFA& cfa, const TNodeIdx& ni) const;
+        TState* copyState(const CFA& cfa, const TState& old) const;
+        void followNilTransitions(const CFA& cfa, const TState *s, const Node& node, TQueue& queue) const;
+        void bfs(const CFA& cfa, TQueue& queue, TQueue& q2, const TAlphaIdx& alphaIdx) const;
+        void clearQueue(TQueue& q) const;
+        bool checkMatch(const CFA& cfa, const TString& s) const;
 };
+
+inline TState* Engine::copyState(const CFA& cfa, const TState& old) const {
+    TState* s = new TState(old.node);
+    if (old.counters) {
+        const unsigned int ctrTotal = cfa.counters.size();
+        s->counters = new unsigned int[ctrTotal];
+        memset(s->counters, 0, ctrTotal * sizeof(unsigned int));
+        memcpy(s->counters, old.counters, old.cc * sizeof(unsigned int));
+    }
+    s->cc = old.cc;
+    return s;
+}
 
 };
 

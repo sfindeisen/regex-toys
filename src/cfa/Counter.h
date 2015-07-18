@@ -10,14 +10,16 @@ namespace regexsf {
 class Counter : public regexsf::Printable {
     public:
         virtual ~Counter();
-        TString asString() const;
 
+        bool hasUpperBound() const;
+        TString asString() const;
     protected:
         /** lo,INF */
         Counter(const TCounterIdx& parent, unsigned int lo);
         Counter(const TCounterIdx& parent, unsigned int lo, unsigned int hi);
 
     private:
+        friend class CFABuilder;
         friend class Engine;
 
         TCounterIdx parent; // parent counter in the counter tree (1-based) (or 0 if root)
@@ -25,6 +27,10 @@ class Counter : public regexsf::Printable {
         unsigned int hi;    // 0 for lo,INF
 
 };
+
+inline bool Counter::hasUpperBound() const {
+    return hi;
+}
 
 };
 
