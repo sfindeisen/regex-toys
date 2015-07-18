@@ -9,15 +9,21 @@ namespace regexsf {
 /** Counter description in a CFA */
 class Counter : public regexsf::Printable {
     public:
-        /** lo,INF */
-        Counter(unsigned int lo);
-        Counter(unsigned int lo, unsigned int hi);
         virtual ~Counter();
         TString asString() const;
+
+    protected:
+        /** lo,INF */
+        Counter(const TCounterIdx& parent, unsigned int lo);
+        Counter(const TCounterIdx& parent, unsigned int lo, unsigned int hi);
+
     private:
         friend class Engine;
+
+        TCounterIdx parent; // parent counter in the counter tree (1-based) (or 0 if root)
         unsigned int lo;
         unsigned int hi;    // 0 for lo,INF
+
 };
 
 };

@@ -15,6 +15,13 @@ AbstractRegexSequence::~AbstractRegexSequence() {
     seq.clear();
 }
 
+inline bool AbstractRegexSequence::isEmpty() const {
+    return seq.empty();
+}
+inline int AbstractRegexSequence::seqLength() const {
+    return seq.size();
+}
+
 TString AbstractRegexSequence::asString() const {
     TStringStream ss;
     ss << asString_seqType() << '(';

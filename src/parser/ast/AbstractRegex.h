@@ -7,6 +7,17 @@
 
 namespace regexsf {
 
+/**
+ * There are just 3 regex types:
+ *
+ * - a single char
+ * - alternative: A|B|...
+ * - sequence: A B C ...
+ *
+ * This does not include quantifiers (they are handled separately).
+ */
+enum class RegexType {RXChar, RXAlt, RXSeq};
+
 class AbstractRegex : public regexsf::Printable {
     public:
         virtual ~AbstractRegex();
@@ -16,6 +27,8 @@ class AbstractRegex : public regexsf::Printable {
 
         /** push new multiplicity specifier on top of the stack (this one becoming the most external) */
         void pushMulti(Multi* p);
+
+        virtual RegexType getType() const =0;
     protected:
         AbstractRegex();
         TString asString_multi() const;

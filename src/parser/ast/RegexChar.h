@@ -7,11 +7,14 @@ namespace regexsf {
 
 class RegexChar : public AbstractRegex {
     public:
-        RegexChar(const char c);
+        RegexChar(const TAlpha c);
         virtual ~RegexChar();
+
+        inline TAlpha getValue() const { return value; }
+        virtual RegexType getType() const;
         virtual TString asString() const;
     private:
-        const char value;
+        const TAlpha value;
 };
 
 };

@@ -1,9 +1,12 @@
 #ifndef _regexsf_engine_Engine_H_
 #define _regexsf_engine_Engine_H_
 
+#include <tuple>
+#include <vector>
+
 #include "../misc/Printable.h"
 #include "../cfa/CFA.h"
-#include "../parser/ast/AbstractRegex.h"
+#include "../parser/ast/AbstractRegexSequence.h"
 
 namespace regexsf {
 
@@ -17,15 +20,18 @@ struct TState {
 
 /** sub-CFA initialization result */
 struct TSubCFAInitRes {
-    TNodeIdx initialNd;
-    TNodeIdx   finalNd;
+    TNodeIdx initialNode;
+    TNodeIdx   finalNode;
 
-    TSubCFAInitRes() : initialNd(0), finalNd(0) {
+    TSubCFAInitRes() : initialNode(0), finalNode(0) {
+    }
+
+    TSubCFAInitRes(const TNodeIdx& i1, const TNodeIdx& i2) : initialNode(i1), finalNode(i2) {
     }
 
     /** no sub-CFA built (empty regex) */
-    bool isSkip() const {
-        return ((0 == initialNd) || (0 == finalNd));
+    bool isSkipped() const {
+        return ((0 == initialNode) || (0 == finalNode));
     }
 };
 
@@ -38,10 +44,24 @@ class Engine : public regexsf::Printable {
         bool match(const TString& string) const;
         TString asString() const;
     protected:
-        /** initializes given CFA from given regex (but do not take top multi into account) */
-        TSubCFAInitRes initCFA_simple(CFA& cfa, const AbstractRegex* regex) const;
-        /** initializes given CFA from given regex */
-        TSubCFAInitRes initCFA(CFA& cfa, const AbstractRegex* regex) const;
+        std::tuple<bool, unsigned int, unsigned int> computeCounter(const AbstractRegex& rx) const;
+
+        /** builds sub-CFA from given regex sequence; the result is a list of sub-CFAs */
+        std::vector<TSubCFAInitRes> initCFA_seq(CFA& cfa, const TCounterIdx& parentCounter, const AbstractRegexSequence* regex) const;
+
+        /**
+         * builds sub-CFA from given regex (but does not take top quantifier into account).
+         *
+         * parentCounter: If not zero, is a 1-based index of the most immediate counter
+         *                this regex is governed by.
+         */
+        TSubCFAInitRes initCFA_simple(CFA& cfa, const TCounterIdx& parentCounter, const AbstractRegex* regex) const;
+
+        /** builds sub-CFA from given regex (simple) and wraps it with a counter */
+        TSubCFAInitRes initCFA_wrapWithCounter(CFA& cfa, const TCounterIdx& counterIdx, const AbstractRegex* regex) const;
+
+        /** builds sub-CFA from given regex */
+        TSubCFAInitRes initCFA(CFA& cfa, const TCounterIdx& parentCounter, const AbstractRegex* regex) const;
     private:
         CFA* cfa;
 };

@@ -29,6 +29,8 @@ typedef std::stringstream TStringStream;
 typedef unsigned long ulong;
 typedef     long long bigint;
 
+typedef char TAlpha;    // alphabet (currently a-z A-Z only!); 0 is for nil-edges
+
 }
 
 #endif

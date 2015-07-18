@@ -15,9 +15,16 @@ class CFA : public regexsf::Printable {
         TString asString() const;
     protected:
         /** appends given counter to the end of counter array, and returns its new index (1-based) */
-        TCounterIdx addCounter(const Counter& ctr);
+        TCounterIdx appendCounter(const Counter& ctr);
+
+        TNodeIdx    appendNode(const Node& node);
+        TNodeIdx    appendNode();
+
+        Counter& getCounter(const TCounterIdx& i);
+        Node& getNode(const TNodeIdx& i);
     private:
         friend class Engine;
+
         std::vector<Node> nodes;
         std::vector<Counter> counters;
 };

@@ -5,8 +5,8 @@
 
 namespace regexsf {
 
-typedef int  TNodeIdx;        // index to the node    array in the automaton (1-based)
-typedef int  TCounterIdx;     // index to the counter array in the automaton (1-based)
+typedef unsigned int TNodeIdx;        // index to the node    array in the automaton (1-based)
+typedef unsigned int TCounterIdx;     // index to the counter array in the automaton (1-based)
 
 };
 

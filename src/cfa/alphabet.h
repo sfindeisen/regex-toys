@@ -6,8 +6,8 @@
 
 namespace regexsf {
 
-typedef char TAlpha;          // alphabet (currently a-z A-Z only!); 0 is for nil-edges
 typedef int  TAlphaIdx;
+
 const int AlphaLen = 1+26+26; // nil + a-z + A-Z
 
 inline TAlphaIdx alpha2idx(char c) {

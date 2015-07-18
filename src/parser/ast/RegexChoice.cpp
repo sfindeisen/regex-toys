@@ -8,6 +8,10 @@ RegexChoice::RegexChoice(const std::vector<AbstractRegex*>& v) : AbstractRegexSe
 RegexChoice::~RegexChoice() {
 }
 
+inline RegexType RegexChoice::getType() const {
+    return RegexType::RXAlt;
+}
+
 TString RegexChoice::asString_seqType() const {
     return "ALT";
 }

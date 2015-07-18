@@ -4,12 +4,12 @@
 using namespace std;
 using namespace regexsf;
 
-Counter::Counter(unsigned int lo) : Printable(), lo(lo), hi(0) {
+Counter::Counter(const TCounterIdx& pc, unsigned int lo) : Printable(), parent(pc), lo(lo), hi(0) {
     if (! lo)
         RX_THROW(IllegalArgumentException);
 }
 
-Counter::Counter(unsigned int lo, unsigned int hi) : Printable(), lo(lo), hi(hi)  {
+Counter::Counter(const TCounterIdx& pc, unsigned int lo, unsigned int hi) : Printable(), parent(pc), lo(lo), hi(hi)  {
     if ((hi < lo) || ((hi==lo) && (hi<=1)))
         RX_THROW_STREAM(IllegalArgumentException, lo << "," << hi);
 }

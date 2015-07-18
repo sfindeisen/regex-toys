@@ -10,10 +10,6 @@ Node::Node() : Printable(), counterId(0), incNode(0), exitNode(0), isAccept(fals
 Node::~Node() {
 }
 
-void Node::setAlphaTransition(const TAlpha& c, const TNodeIdx& i) {
-    alphaTransitions[alpha2idx(c)] = i;
-}
-
 TString Node::asString() const {
     TStringStream ss;
     ss << "Node";
