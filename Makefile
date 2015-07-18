@@ -30,7 +30,7 @@ $(CPPPRGS): out/obj/%.o: src/%.cpp $(CPPOBJS)
 	@$(CCPP) -c $(CPPFLAGS) $< -o $@
 	@$(CCPPDEPSCMD) -MT $@ $(CPPFLAGS) $< >> $(@:%.o=%.depend)
 	@echo "Building  $*"
-	@$(CCPP) $(LNFLAGS) -o out/bin/$* $@ $(CPPOBJS)
+	@$(CCPP) $(LNFLAGS) -o out/bin/$* $@ $(CPPOBJS) -lboost_regex
 
 $(CPPOBJS): out/obj/%.o: src/%.cpp 
 	@echo "Compiling: " `basename $<`

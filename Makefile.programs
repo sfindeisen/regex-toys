@@ -1,1 +1,2 @@
+PRGBASENAMES+=regexboost
 PRGBASENAMES+=regexsf
