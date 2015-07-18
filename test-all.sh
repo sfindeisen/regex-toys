@@ -1,6 +1,5 @@
 #!/bin/bash
 
-for i in test/*.in ; do
-    echo "Test case: $i";
-    ./out/bin/regexsf < $i 2>/dev/null
-done
+MYDIR=`dirname $0`
+
+sh $MYDIR/tools/test-program.sh out/bin/regexsf

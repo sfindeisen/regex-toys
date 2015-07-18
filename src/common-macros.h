@@ -16,6 +16,13 @@ namespace regexsf {
 {                                       \
     std::cerr << "WARN  " << (__FILE__) << ":" << (__LINE__) << " " << (__FUNCTION__) << ": " << (RX_STRING(e)) << std::endl; \
 }
+
+#define RX_INFO(e) { }
+#define RX_DEBUG(e) { }
+#define RX_TRACE(e) { }
+#define RX_TRACE_MSG(e) { }
+
+/*
 #define RX_INFO(e)                      \
 {                                       \
     std::cerr << "INFO  " << (__FILE__) << ":" << (__LINE__) << " " << (__FUNCTION__) << ": " << (RX_STRING(e)) << std::endl; \
@@ -34,6 +41,7 @@ namespace regexsf {
 {                                       \
     std::cerr << "TRACE " << (__FILE__) << ":" << (__LINE__) << " " << (__FUNCTION__) << ": " << (RX_STRING(e)) << std::endl; \
 }
+*/
 
 #define RX_NEW(p,e)                     \
 {                                       \
