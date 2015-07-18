@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "misc/Utils.h"
 #include "engine/CFABuilder.h"
 #include "engine/Engine.h"
 #include "parser/Parser.h"
@@ -10,12 +11,12 @@ using namespace regexsf;
 
 int main() {
     try {
-        int k=0;
-        cin >> k;
-
         std::string rxs, ms;
-        cin >> rxs;
-        RX_DEBUG("got RE: " << rxs);
+        getline(cin, ms);
+        int k = Utils::parseUInt(ms);
+        RX_DEBUG("Number of test cases: " << k);
+        getline(cin, rxs);
+        RX_DEBUG("got RE: " << rxs << "#");
 
         Parser p;
         AbstractRegex *rx = p.parse(rxs);
@@ -27,7 +28,8 @@ int main() {
         RX_DELETE(rx);      // it is safe to delete this regex tree now
 
         for (int i=0; i < k; ++i) {
-            cin >> ms;
+            getline(cin, ms);
+            RX_DEBUG("check: " << ms << "#");
             cout << (Engine().match(*cfa, ms) ? "YES" : "NO") << endl;
         }
 

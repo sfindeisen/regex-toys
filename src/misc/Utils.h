@@ -14,8 +14,10 @@ template <typename Iter> static Iter next(Iter iter) {
 }
 
 template <typename Iter, typename Cont> static bool isLast(Iter iter, const Cont& cont) {
-    return (iter != cont.end()) && (next(iter) == cont.end())
+    return (iter != cont.end()) && (next(iter) == cont.end());
 }
+
+static unsigned int parseUInt(const TString& s);
 
 };
 

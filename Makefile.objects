@@ -5,6 +5,7 @@ OBJBASENAMES+=engine/CFABuilder
 OBJBASENAMES+=engine/Engine
 OBJBASENAMES+=misc/MemoryManager
 OBJBASENAMES+=misc/Printable
+OBJBASENAMES+=misc/Utils
 OBJBASENAMES+=parser/Parser
 OBJBASENAMES+=parser/ast/AbstractRegex
 OBJBASENAMES+=parser/ast/AbstractRegexSequence

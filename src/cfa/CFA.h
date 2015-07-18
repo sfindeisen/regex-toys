@@ -14,9 +14,10 @@ class CFA : public regexsf::Printable {
         virtual ~CFA();
         TString asString() const;
 
-        /** returns the number of counters */
-        int getCounterCount() const;
     protected:
+        /** returns the number of counters in this CFA */
+        unsigned int getCounterCount() const;
+
         /** appends given counter to the end of counter array, and returns its new index (1-based) */
         TCounterIdx appendCounter(const Counter& ctr);
         Counter& getCounter(const TCounterIdx& i);
@@ -27,6 +28,7 @@ class CFA : public regexsf::Printable {
         Node& getNode(const TNodeIdx& i);
         void setStartNode(const TNodeIdx& i);
         void setFinalNode(const TNodeIdx& i);
+
     private:
         friend class CFABuilder;
         friend class Engine;
@@ -37,7 +39,7 @@ class CFA : public regexsf::Printable {
         std::vector<Counter> counters;
 };
 
-inline int CFA::getCounterCount() const {
+inline unsigned int CFA::getCounterCount() const {
     return counters.size();
 }
 

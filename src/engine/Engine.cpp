@@ -9,35 +9,31 @@ using namespace std;
 using namespace regexsf;
 
 TState* Engine::initState(const CFA& cfa, const TNodeIdx& ni) const {
-    const Node& node = cfa.nodes[ni];
-    if (node.counterId) {
-        return new TState(ni, cfa.counters.size());
-    } else {
-        return new TState(ni);
-    }
+    return new TState(ni, cfa.counters.size());
 }
 
 void Engine::followNilTransitions(const CFA& cfa, const TState *s, const Node& node, TQueue& queue) const {
     if (node.counterId) {
-        const Counter& ctr = cfa.counters[node.counterId-1];   // counter
-        const unsigned int v = s->counters[s->cc-1];           // current value
+        const unsigned int cidx = node.counterId-1;
+        const Counter& ctr =  cfa.counters[cidx];  // counter
+        const unsigned int v = s->counters[cidx];  // current value
 
         // Follow increment edge
         if ((! ctr.hasUpperBound()) || (v < ctr.hi)) {
             TState* t = copyState(cfa, *s);
             t->node = node.incNode;
-            t->counters[t->cc-1]++;
+            t->counters[cidx]++;
             queue.push_back(t);
-            RX_DEBUG("  Follow  inc: " << asString(*t));
+            RX_DEBUG("  Follow  inc: " << asString(cfa, *t));
         }
 
         // Follow exit edge
         if (ctr.lo <= v) {
             TState* t = copyState(cfa, *s);
             t->node = node.exitNode;
-            t->counters[--(t->cc)]=0;
+            t->counters[cidx]=0;
             queue.push_back(t);
-            RX_DEBUG("  Follow exit: " << asString(*t));
+            RX_DEBUG("  Follow exit: " << asString(cfa, *t));
         }
     }
 
@@ -46,7 +42,7 @@ void Engine::followNilTransitions(const CFA& cfa, const TState *s, const Node& n
         TState* t = copyState(cfa, *s);
         t->node = *it;
         queue.push_back(t);
-        RX_DEBUG("  Follow  nil: " << asString(*t));
+        RX_DEBUG("  Follow  nil: " << asString(cfa, *t));
     }
 }
 
@@ -59,7 +55,7 @@ void Engine::bfs(const CFA& cfa, TQueue& queue, TQueue& q2, const TAlphaIdx& alp
     for (unsigned int j=0; j < queue.size(); ++j) {
         TState* s = queue[j];
         const Node& node = cfa.nodes[s->node-1];
-        RX_DEBUG("j=" << j << ": " << asString(*s));
+        RX_DEBUG("j=" << j << ": " << asString(cfa, *s));
 
         // Follow nil transitions
         followNilTransitions(cfa, s, node, queue);
@@ -70,7 +66,7 @@ void Engine::bfs(const CFA& cfa, TQueue& queue, TQueue& q2, const TAlphaIdx& alp
             TState* t = copyState(cfa, *s);
             t->node = nx;
             q2.push_back(t);
-            RX_DEBUG("  Follow char: " << asString(*t));
+            RX_DEBUG("  Follow char: " << asString(cfa, *t));
         }
     }
 }
@@ -81,7 +77,7 @@ void Engine::bfs(const CFA& cfa, TQueue& queue, TQueue& q2, const TAlphaIdx& alp
 bool Engine::checkAccept(const CFA& cfa, TQueue& queue) const {
     for (unsigned int j=0; j < queue.size(); ++j) {
         TState* s = queue[j];
-        RX_DEBUG("(A) j=" << j << ": " << asString(*s));
+        RX_DEBUG("(A) j=" << j << ": " << asString(cfa, *s));
         const Node& node = cfa.nodes[s->node-1];
 
         if (node.isAccept)
@@ -108,7 +104,7 @@ bool Engine::checkMatch(const CFA& cfa, const TString& z) const {
     for (int i=0; i < ZLen; ++i) {
         const char c = z[i];
         TAlphaIdx ca = alpha2idx(c);
-        RX_DEBUG("i=" << i << ": " << c << "/" << ca);
+        RX_DEBUG("** i=" << i << ": " << c << "/" << ca);
 
         // bfs from states stored in queue
         bfs(cfa, queue, q2, ca);
@@ -134,6 +130,7 @@ bool Engine::checkMatch(const CFA& cfa, const TString& z) const {
 
 bool Engine::match(const CFA& cfa, const TString& s) const {
     const int SLen = s.length();
+    RX_DEBUG("match: " << s << "#");
 
     for (int i=0; i < SLen; ++i) {
         // TODO what if not ASCII?...
@@ -145,14 +142,12 @@ bool Engine::match(const CFA& cfa, const TString& s) const {
 }
 
 
-TString Engine::asString(const TState& t) const {
+TString Engine::asString(const CFA& cfa, const TState& t) const {
     TStringStream ss;
     ss << "St: " << t.node;
-    if (t.cc) {
-        ss << " " << t.cc << " ctrs:";
-        for (unsigned int i=0; i < t.cc; ++i) {
-            ss << " " << t.counters[i];
-        }
+    for (unsigned int i=0; i < cfa.getCounterCount(); ++i) {
+        if (t.counters[i])
+            ss << " " << (1+i) << ":" << t.counters[i];
     }
     return ss.str();
 }
