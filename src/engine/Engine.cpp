@@ -9,7 +9,11 @@ using namespace regexsf;
 
 Engine::Engine(const AbstractRegex *regex) : Printable(), cfa(nullptr) {
     RX_NEW(cfa, CFA);
-    initCFA(*cfa, 0, regex);
+    TSubCFAInitRes ir(initCFA(*cfa, 0, regex));
+
+    if (! ir.isSkipped()) {
+        cfa->setStartNode(ir.initialNode);
+    }
 }
 
 Engine::~Engine() {
@@ -42,7 +46,7 @@ TSubCFAInitRes Engine::initCFA_simple(CFA& cfa, const TCounterIdx& parentCounter
                 Node n2;
                 n2.setAccept(true);
                 const TNodeIdx i2 = cfa.appendNode(n2);
-                n2.setAlphaTransition(rc->getValue(), i1);
+                cfa.getNode(i1).setAlphaTransition(rc->getValue(), i2);
                 return TSubCFAInitRes(i1, i2);
             } else {
                 RX_THROW(IllegalArgumentException);
@@ -123,6 +127,7 @@ std::tuple<bool, unsigned int, unsigned int> Engine::computeCounter(const Abstra
 
     for (std::vector<Multi*>::const_iterator it = rx.multi.begin(); it != rx.multi.end(); ++it) {
         const Multi& m = **it;
+        RX_DEBUG("computeCounter: " << m);
 
         if (m.isZero()) {
             lo=hi=0;        // no occurences at all
@@ -137,8 +142,11 @@ std::tuple<bool, unsigned int, unsigned int> Engine::computeCounter(const Abstra
                     hinf = true;
             }
         }
+
+        RX_DEBUG("computeCounter: " << lo << ".." << hi << " (" << hinf << ")");
     }
 
+    RX_DEBUG("computeCounter: result: " << lo << ".." << hi << " (" << hinf << ")");
     return tuple<bool, unsigned int, unsigned int>(hinf, lo, hi);
 }
 

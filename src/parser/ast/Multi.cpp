@@ -5,10 +5,20 @@
 using namespace regexsf;
 
 Multi::Multi(const MultiType& m)
-    : Printable(), mt(m)
+    : Printable(), mt(m), lo(0), hi(0)
 {
-    if (! ((MultiType::ZeroOrMore == m) || (MultiType::OneOrMore == m) || (MultiType::ZeroOrOne == m)))
-        RX_THROW(IllegalArgumentException);
+    switch (m) {
+        case MultiType::ZeroOrMore:
+            break;
+        case MultiType::OneOrMore:
+            lo = 1;
+            break;
+        case MultiType::ZeroOrOne:
+            hi = 1;
+            break;
+        default:
+            RX_THROW(IllegalArgumentException);
+    }
 }
 
 Multi::Multi(const MultiType& m, unsigned int value)

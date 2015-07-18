@@ -19,6 +19,6 @@ Counter::~Counter() {
 
 TString Counter::asString() const {
     TStringStream ss;
-    ss << lo << "," << hi;
+    ss << "CTR parent: " << parent << " {" << lo << "," << hi << "}";
     return ss.str();
 }

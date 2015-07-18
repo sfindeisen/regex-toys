@@ -22,9 +22,12 @@ class CFA : public regexsf::Printable {
 
         Counter& getCounter(const TCounterIdx& i);
         Node& getNode(const TNodeIdx& i);
+
+        void setStartNode(const TNodeIdx& i);
     private:
         friend class Engine;
 
+        TNodeIdx startNode;
         std::vector<Node> nodes;
         std::vector<Counter> counters;
 };

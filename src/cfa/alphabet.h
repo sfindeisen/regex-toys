@@ -23,6 +23,18 @@ inline TAlphaIdx alpha2idx(char c) {
     }
 }
 
+inline char idx2alpha(const TAlphaIdx& i) {
+    if (i) {
+        if ((1 <= i) && (i <= 26))
+            return 'a' - 1 + i;
+        if ((1+26 <= i) && (i <= 26+26))
+            return 'A' - (1+26) + i;
+        RX_THROW_STREAM(IllegalArgumentException, "char index out of range: " << i);
+    } else {
+        return '-';
+    }
+}
+
 };
 
 #endif

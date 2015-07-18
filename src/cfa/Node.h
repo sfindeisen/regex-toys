@@ -66,7 +66,7 @@ inline void Node::setAccept(bool accept) {
 
 inline void Node::setAlphaTransition(const TAlpha& c, const TNodeIdx& i) {
     if (1 <= i)
-        alphaTransitions[alpha2idx(c)] = i;
+        alphaTransitions.at(alpha2idx(c)) = i;
     else
         RX_THROW(IllegalArgumentException);
 }

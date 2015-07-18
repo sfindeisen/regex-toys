@@ -15,6 +15,13 @@ Node& CFA::getNode(const TNodeIdx& i) {
     RX_THROW_STREAM(IllegalArgumentException, "index out of range: " << i);
 }
 
+void CFA::setStartNode(const TNodeIdx& i) {
+    if ((1 <= i) && (i <= nodes.size()))
+        startNode = i;
+    else
+        RX_THROW_STREAM(IllegalArgumentException, "index out of range: " << i);
+}
+
 TNodeIdx CFA::appendNode() {
     return appendNode(Node());
 }
@@ -32,5 +39,11 @@ TCounterIdx CFA::appendCounter(const Counter& ctr) {
 TString CFA::asString() const {
     TStringStream ss;
     ss << "CFA: " << nodes.size() << " nodes, " << counters.size() << " counters";
+
+    for (unsigned int j=0; j < counters.size(); ++j)
+        ss << endl << (1+j) << ": " << (counters.at(j));
+    for (unsigned int j=0; j < nodes.size(); ++j)
+        ss << endl << ((startNode == (1+j)) ? "S " : "") << (1+j) << ": " << (nodes.at(j));
+    
     return ss.str();
 }
