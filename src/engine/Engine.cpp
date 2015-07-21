@@ -15,20 +15,24 @@ TState* Engine::initState(const CFA& cfa, const TNodeIdx& ni) const {
 void Engine::followNilTransitions(const CFA& cfa, const TState *s, const Node& node, TQueue& queue) const {
     if (node.counterId) {
         const unsigned int cidx = node.counterId-1;
-        const Counter& ctr =  cfa.counters[cidx];  // counter
-        const unsigned int v = s->counters[cidx];  // current value
+        const Counter& ctr = cfa.counters[cidx];  // counter
+        const int v        = s->counters[cidx];   // current value (relative)
+        const unsigned int va = abs(v);           // current value (absolute)
 
         // Follow increment edge
-        if ((! ctr.hasUpperBound()) || (v < ctr.hi)) {
-            TState* t = copyState(cfa, *s);
-            t->node = node.incNode;
-            t->counters[cidx]++;
-            queue.push_back(t);
-            RX_DEBUG("  Follow  inc: " << asString(cfa, *t));
+        if ((! ctr.hasUpperBound()) || (va < ctr.hi)) {
+            if ((va < ctr.lo) || (0 <= v)) {
+                // the counter is not satisfied (yet) or the last iteration was not empty
+                TState* t = copyState(cfa, *s);
+                t->node = node.incNode;
+                t->counters[cidx] = -((ctr.hasUpperBound() || (va < ctr.lo)) ? (va+1) : (1+ctr.lo));   // negative value, as we want to check for an empty iteration
+                queue.push_back(t);
+                RX_DEBUG("  Follow  inc: " << asString(cfa, *t));
+            }
         }
 
         // Follow exit edge
-        if (ctr.lo <= v) {
+        if (ctr.lo <= va) {
             TState* t = copyState(cfa, *s);
             t->node = node.exitNode;
             t->counters[cidx]=0;
@@ -65,6 +69,9 @@ void Engine::bfs(const CFA& cfa, TQueue& queue, TQueue& q2, const TAlphaIdx& alp
         if (nx) {
             TState* t = copyState(cfa, *s);
             t->node = nx;
+            // make all the counters positive:
+            for (unsigned int i=0; i < cfa.getCounterCount(); ++i)
+                t->counters[i] = abs(t->counters[i]);
             q2.push_back(t);
             RX_DEBUG("  Follow char: " << asString(cfa, *t));
         }

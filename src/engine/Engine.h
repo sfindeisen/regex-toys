@@ -12,13 +12,17 @@ namespace regexsf {
 
 struct TState {
     TNodeIdx node;
-    unsigned int *counters;  // counter values: 0, 1, ... TotalCounters-1
+    int *counters;  // counter values: 0, 1, ... TotalCounters-1
+                    // v >= 0 means this is the counter value
+                    // v <  0 means that the counter value is -v, and we haven't yet traversed
+                    //              a character transition in this iteration of the sub-automaton
+                    //              governed by this counter.
 
     inline TState(const TNodeIdx& i, const unsigned int& ctrTotal, bool zeroCtr=true) : node(i), counters(nullptr) {
         if (1 <= ctrTotal) {
-            counters = new unsigned int[ctrTotal];
+            counters = new int[ctrTotal];
             if (zeroCtr)
-                memset(counters, 0, ctrTotal * sizeof(unsigned int));
+                memset(counters, 0, ctrTotal * sizeof(int));
         }
     }
 
